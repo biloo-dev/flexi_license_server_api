@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flexi_license_server_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - API_PREFIX=api/v1
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+      - LICENSE_KEY_ID=${LICENSE_KEY_ID}
+      - LICENSE_PRIVATE_KEY=${LICENSE_PRIVATE_KEY}
+      - LICENSE_PUBLIC_KEY=${LICENSE_PUBLIC_KEY}
+      - LICENSE_OFFLINE_GRACE_PERIOD_HOURS=${LICENSE_OFFLINE_GRACE_PERIOD_HOURS:-48}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+    env_file:
+      - .env

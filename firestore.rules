@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Disallow all direct client-side reads and writes.
+    // All requests MUST go through the NestJS backend via Firebase Admin SDK.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
