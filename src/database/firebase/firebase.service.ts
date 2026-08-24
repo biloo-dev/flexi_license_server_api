@@ -31,6 +31,24 @@ export class FirebaseService implements OnModuleInit {
     const privateKey = this.configService.get<string>('firebase.privateKey');
     const emulatorHost = this.configService.get<string>('firebase.emulatorHost');
 
+    if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
+      try {
+        const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON.trim();
+        const jsonStr = raw.startsWith('{') ? raw : Buffer.from(raw, 'base64').toString('utf-8');
+        const serviceAccount = JSON.parse(jsonStr);
+        this.app = initializeApp({
+          credential: cert(serviceAccount),
+          projectId: serviceAccount.project_id || projectId,
+        });
+        this.dbInstance = getFirestore(this.app);
+        this.authInstance = getAuth(this.app);
+        this.logger.log(`Initialized Firebase Admin SDK from FIREBASE_SERVICE_ACCOUNT_JSON for project ${serviceAccount.project_id || projectId}`);
+        return;
+      } catch (err: any) {
+        this.logger.error(`Failed parsing FIREBASE_SERVICE_ACCOUNT_JSON: ${err.message}`);
+      }
+    }
+
     if (emulatorHost) {
       process.env.FIRESTORE_EMULATOR_HOST = emulatorHost;
       this.logger.log(`Using Firestore Emulator at ${emulatorHost}`);
