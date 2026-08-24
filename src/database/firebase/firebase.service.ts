@@ -42,6 +42,8 @@ export class FirebaseService implements OnModuleInit {
     const candidatePaths = [
       process.env.GOOGLE_APPLICATION_CREDENTIALS,
       process.env.FIREBASE_CREDENTIALS_PATH,
+      '/etc/secrets/serviceAccountKey.json',
+      '/etc/secrets/serviceAccountKey.json.json',
       path.resolve(process.cwd(), 'serviceAccountKey.json'),
       path.resolve(process.cwd(), 'serviceAccountKey.json.json'),
       path.resolve(__dirname, '../../../serviceAccountKey.json'),
