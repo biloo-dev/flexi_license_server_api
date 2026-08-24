@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('app.port') || 3000;
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : (configService.get<number>('app.port') || 3000);
   const apiPrefix = configService.get<string>('app.apiPrefix') || 'api/v1';
   const corsOrigins = configService.get<string | string[]>('app.corsOrigins') || '*';
 
