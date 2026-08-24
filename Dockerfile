@@ -15,6 +15,7 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV PORT=10000
 
 COPY package*.json ./
 RUN npm ci --only=production
@@ -23,6 +24,6 @@ COPY --from=builder /app/dist ./dist
 COPY firestore.indexes.json ./
 COPY firestore.rules ./
 
-EXPOSE 3000
+EXPOSE 10000
 
 CMD ["node", "dist/main.js"]
