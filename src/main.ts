@@ -33,7 +33,9 @@ async function bootstrap() {
   });
 
   // Global Prefix
-  app.setGlobalPrefix(apiPrefix);
+  app.setGlobalPrefix(apiPrefix, {
+    exclude: ['/', 'health'],
+  });
 
   // Global Validation
   app.useGlobalPipes(
