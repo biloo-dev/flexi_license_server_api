@@ -79,10 +79,10 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   logger.log(`=======================================================`);
-  logger.log(`🚀 Flexi License Server is running on: http://localhost:${port}/${apiPrefix}`);
-  logger.log(`📚 Swagger Documentation is live at: http://localhost:${port}/api/docs`);
+  logger.log(`🚀 Flexi License Server is running on port ${port} (0.0.0.0) with prefix: /${apiPrefix}`);
+  logger.log(`📚 Swagger Documentation is live at: /api/docs`);
   logger.log(`=======================================================`);
 }
 
